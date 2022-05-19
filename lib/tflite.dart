@@ -11,8 +11,8 @@ class Tflite {
       String labels = "",
       int numThreads = 1,
       bool isAsset = true,
-      bool isFloat,
-      String passedLabels,
+      bool isFloat = true,
+      String passedLabels = '',
       bool useGpuDelegate = false}) async {
     return await _channel.invokeMethod(
       'loadModel',
