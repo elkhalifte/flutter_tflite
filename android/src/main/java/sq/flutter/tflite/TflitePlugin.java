@@ -18,6 +18,7 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicYuvToRGB;
 import android.renderscript.Type;
 import android.util.Log;
+import java.util.Arrays;
 import androidx.annotation.NonNull;
 
 import io.flutter.FlutterInjector;
@@ -270,7 +271,7 @@ public class TflitePlugin implements FlutterPlugin, MethodCallHandler, ActivityA
     tfLite = new Interpreter(buffer, tfliteOptions);
 
     String labels = args.get("passedLabels").toString();
-     isFloat = (args.get("isFloat") != null) ? args.get("isFloat") : true;
+     isFloat =  (Boolean) args.get("isFloat");
     loadLabels(null, labels);
     // if (labels.length() > 0) {
     //   if (isAsset) {
@@ -305,7 +306,6 @@ public class TflitePlugin implements FlutterPlugin, MethodCallHandler, ActivityA
     // }
 
 
-    try {
      
       labels = new Vector<String>(Arrays.asList(path.split(",")));
      
@@ -318,9 +318,7 @@ public class TflitePlugin implements FlutterPlugin, MethodCallHandler, ActivityA
       else{
         labelProbByte = new byte[1][labels.size()];
       }
-    } catch (IOException e) {
-      throw new RuntimeException("Failed to read label file", e);
-    }
+   
 
   }
 
