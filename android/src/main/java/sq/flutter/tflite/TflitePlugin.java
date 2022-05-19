@@ -67,6 +67,8 @@ public class TflitePlugin implements FlutterPlugin, MethodCallHandler, ActivityA
   private int inputSize = 0;
   private Vector<String> labels;
   float[][] labelProb;
+  byte[][] labelProbByte;
+  boolean isFloat = true;
   private static final int BYTES_PER_CHANNEL = 4;
 
   String[] partNames = {
@@ -267,39 +269,59 @@ public class TflitePlugin implements FlutterPlugin, MethodCallHandler, ActivityA
     }
     tfLite = new Interpreter(buffer, tfliteOptions);
 
-    String labels = args.get("labels").toString();
-
-    if (labels.length() > 0) {
-      if (isAsset) {
-        FlutterLoader loader = FlutterInjector.instance().flutterLoader();
-        key = loader.getLookupKeyForAsset(labels);
-        loadLabels(assetManager, key);
-      } else {
-        loadLabels(null, labels);
-      }
-    }
+    String labels = args.get("passedLabels").toString();
+     isFloat = (args.get("isFloat") != null) ? args.get("isFloat") : true;
+    loadLabels(null, labels);
+    // if (labels.length() > 0) {
+    //   if (isAsset) {
+    //     FlutterLoader loader = FlutterInjector.instance().flutterLoader();
+    //     key = loader.getLookupKeyForAsset(labels);
+    //     loadLabels(assetManager, key);
+    //   } else {
+    //     loadLabels(null, labels);
+    //   }
+    // }
 
     return "success";
   }
 
   private void loadLabels(AssetManager assetManager, String path) {
-    BufferedReader br;
+    // BufferedReader br;
+    // try {
+    //   if (assetManager != null) {
+    //     br = new BufferedReader(new InputStreamReader(assetManager.open(path)));
+    //   } else {
+    //     br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(path))));
+    //   }
+    //   String line;
+    //   labels = new Vector<>();
+    //   while ((line = br.readLine()) != null) {
+    //     labels.add(line);
+    //   }
+    //   labelProb = new float[1][labels.size()];
+    //   br.close();
+    // } catch (IOException e) {
+    //   throw new RuntimeException("Failed to read label file", e);
+    // }
+
+
     try {
-      if (assetManager != null) {
-        br = new BufferedReader(new InputStreamReader(assetManager.open(path)));
-      } else {
-        br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(path))));
+     
+      labels = new Vector<String>(Arrays.asList(path.split(",")));
+     
+      
+      if(isFloat){
+        labelProb = new float[1][labels.size()];
+        
+
       }
-      String line;
-      labels = new Vector<>();
-      while ((line = br.readLine()) != null) {
-        labels.add(line);
+      else{
+        labelProbByte = new byte[1][labels.size()];
       }
-      labelProb = new float[1][labels.size()];
-      br.close();
     } catch (IOException e) {
       throw new RuntimeException("Failed to read label file", e);
     }
+
   }
 
   private List<Map<String, Object>> GetTopN(int numResults, float threshold) {
@@ -314,7 +336,16 @@ public class TflitePlugin implements FlutterPlugin, MethodCallHandler, ActivityA
             });
 
     for (int i = 0; i < labels.size(); ++i) {
-      float confidence = labelProb[0][i];
+      float confidence;
+      if(isFloat){
+        
+           confidence = (float)labelProbByte[0][i];
+     
+      }
+      else{
+         confidence = labelProb[0][i];
+      }
+      
       if (confidence > threshold) {
         Map<String, Object> res = new HashMap<>();
         res.put("index", i);
@@ -535,7 +566,13 @@ public class TflitePlugin implements FlutterPlugin, MethodCallHandler, ActivityA
     }
 
     protected void runTflite() {
-      tfLite.run(input, labelProb);
+      // tfLite.run(input, labelProb);
+      if(isFloat){
+        tfLite.run(input, labelProb);
+      }
+      else{
+        tfLite.run(input, labelProbByte);
+      }
     }
 
     protected void onRunTfliteDone() {
@@ -561,7 +598,13 @@ public class TflitePlugin implements FlutterPlugin, MethodCallHandler, ActivityA
     }
 
     protected void runTflite() {
-      tfLite.run(imgData, labelProb);
+      // tfLite.run(imgData, labelProb);
+      if(isFloat){
+        tfLite.run(imgData, labelProb);
+      }
+      else{
+        tfLite.run(imgData, labelProbByte);
+      }
     }
 
     protected void onRunTfliteDone() {
@@ -596,7 +639,14 @@ public class TflitePlugin implements FlutterPlugin, MethodCallHandler, ActivityA
     }
 
     protected void runTflite() {
-      tfLite.run(imgData, labelProb);
+      // tfLite.run(imgData, labelProb);
+      if(isFloat){
+        tfLite.run(imgData, labelProb);
+      }
+      else{
+        tfLite.run(imgData, labelProbByte);
+      }
+      
     }
 
     protected void onRunTfliteDone() {
@@ -1616,5 +1666,6 @@ public class TflitePlugin implements FlutterPlugin, MethodCallHandler, ActivityA
       tfLite.close();
     labels = null;
     labelProb = null;
+    labelProbByte = null;
   }
 }
