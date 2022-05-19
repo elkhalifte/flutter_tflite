@@ -11,6 +11,8 @@ class Tflite {
       String labels = "",
       int numThreads = 1,
       bool isAsset = true,
+      bool isFloat,
+      String passedLabels,
       bool useGpuDelegate = false}) async {
     return await _channel.invokeMethod(
       'loadModel',
@@ -19,6 +21,8 @@ class Tflite {
         "labels": labels,
         "numThreads": numThreads,
         "isAsset": isAsset,
+        "isFloat": isFloat,
+        "passedLabels": passedLabels,
         'useGpuDelegate': useGpuDelegate
       },
     );
