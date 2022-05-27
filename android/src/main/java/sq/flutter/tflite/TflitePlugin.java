@@ -337,11 +337,12 @@ public class TflitePlugin implements FlutterPlugin, MethodCallHandler, ActivityA
       float confidence;
       if(isFloat){
         
-           confidence = (float)labelProbByte[0][i];
+          
+           confidence = labelProb[0][i];
      
       }
       else{
-         confidence = labelProb[0][i];
+        confidence = (float)labelProbByte[0][i];
       }
       
       if (confidence > threshold) {
