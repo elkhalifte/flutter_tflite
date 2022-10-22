@@ -38,7 +38,7 @@ import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.Interpreter;
 import org.tensorflow.lite.Tensor;
 
-import org.tensorflow.lite.gpu.GpuDelegate;
+// import org.tensorflow.lite.gpu.GpuDelegate;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -265,8 +265,8 @@ public class TflitePlugin implements FlutterPlugin, MethodCallHandler, ActivityA
     final Interpreter.Options tfliteOptions = new Interpreter.Options();
     tfliteOptions.setNumThreads(numThreads);
     if (useGpuDelegate){
-      GpuDelegate delegate = new GpuDelegate();
-      tfliteOptions.addDelegate(delegate);
+      // GpuDelegate delegate = new GpuDelegate();
+      // tfliteOptions.addDelegate(delegate);
     }
     tfLite = new Interpreter(buffer, tfliteOptions);
 
