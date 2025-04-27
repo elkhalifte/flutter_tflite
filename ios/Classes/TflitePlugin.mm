@@ -128,19 +128,19 @@ std::vector<std::vector<float>> labelProb;
 std::vector<std::vector<uint8_t>> labelProbByte;
 
 
-static void LoadLabels(
-                       std::vector<std::string>* label_strings) {
-  if (!labels_path) {
-    LOG(ERROR) << "Failed to find label file at" << labels_path;
-  }
-  std::ifstream t;
-  t.open([labels_path UTF8String]);
-  label_strings->clear();
-  for (std::string line; std::getline(t, line); ) {
-    label_strings->push_back(line);
-  }
-  t.close();
-}
+// static void LoadLabels(
+//                        std::vector<std::string>* label_strings) {
+  // if (!labels_path) {
+  //   LOG(ERROR) << "Failed to find label file at" << labels_path;
+  // }
+  // std::ifstream t;
+  // t.open([labels_path UTF8String]);
+  // label_strings->clear();
+  // for (std::string line; std::getline(t, line); ) {
+  //   label_strings->push_back(line);
+  // }
+  // t.close();
+// }
 
 NSString* loadModel(NSObject<FlutterPluginRegistrar>* _registrar, NSDictionary* args) {
   NSString* graph_path;
