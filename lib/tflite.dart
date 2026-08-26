@@ -4,7 +4,7 @@ import 'dart:ui' show Color;
 import 'package:flutter/services.dart';
 
 class Tflite {
-  static const MethodChannel _channel = const MethodChannel('tflite');
+  static const MethodChannel _channel = MethodChannel('tflite');
 
   static Future<String?> loadModel(
       {required String model,
@@ -168,7 +168,7 @@ class Tflite {
     double imageStd = 127.5,
     double threshold = 0.1,
     int numResultsPerClass = 5,
-    int rotation: 90, // Android only
+    int rotation = 90, // Android only
     // Used in YOLO only
     List anchors = anchors,
     int blockSize = 32,
@@ -237,7 +237,7 @@ class Tflite {
     int imageWidth = 720,
     double imageMean = 0,
     double imageStd = 255.0,
-    int rotation: 90, // Android only
+    int rotation = 90, // Android only
     String outputType = "png",
     bool asynch = true,
   }) async {
@@ -258,27 +258,27 @@ class Tflite {
 
   // https://github.com/meetshah1995/pytorch-semseg/blob/master/ptsemseg/loader/pascal_voc_loader.py
   static List<int> pascalVOCLabelColors = [
-    Color.fromARGB(255, 0, 0, 0).value, // background
-    Color.fromARGB(255, 128, 0, 0).value, // aeroplane
-    Color.fromARGB(255, 0, 128, 0).value, // biyclce
-    Color.fromARGB(255, 128, 128, 0).value, // bird
-    Color.fromARGB(255, 0, 0, 128).value, // boat
-    Color.fromARGB(255, 128, 0, 128).value, // bottle
-    Color.fromARGB(255, 0, 128, 128).value, // bus
-    Color.fromARGB(255, 128, 128, 128).value, // car
-    Color.fromARGB(255, 64, 0, 0).value, // cat
-    Color.fromARGB(255, 192, 0, 0).value, // chair
-    Color.fromARGB(255, 64, 128, 0).value, // cow
-    Color.fromARGB(255, 192, 128, 0).value, // diningtable
-    Color.fromARGB(255, 64, 0, 128).value, // dog
-    Color.fromARGB(255, 192, 0, 128).value, // horse
-    Color.fromARGB(255, 64, 128, 128).value, // motorbike
-    Color.fromARGB(255, 192, 128, 128).value, // person
-    Color.fromARGB(255, 0, 64, 0).value, // potted plant
-    Color.fromARGB(255, 128, 64, 0).value, // sheep
-    Color.fromARGB(255, 0, 192, 0).value, // sofa
-    Color.fromARGB(255, 128, 192, 0).value, // train
-    Color.fromARGB(255, 0, 64, 128).value, // tv-monitor
+    const Color.fromARGB(255, 0, 0, 0).toARGB32(), // background
+    const Color.fromARGB(255, 128, 0, 0).toARGB32(), // aeroplane
+    const Color.fromARGB(255, 0, 128, 0).toARGB32(), // biyclce
+    const Color.fromARGB(255, 128, 128, 0).toARGB32(), // bird
+    const Color.fromARGB(255, 0, 0, 128).toARGB32(), // boat
+    const Color.fromARGB(255, 128, 0, 128).toARGB32(), // bottle
+    const Color.fromARGB(255, 0, 128, 128).toARGB32(), // bus
+    const Color.fromARGB(255, 128, 128, 128).toARGB32(), // car
+    const Color.fromARGB(255, 64, 0, 0).toARGB32(), // cat
+    const Color.fromARGB(255, 192, 0, 0).toARGB32(), // chair
+    const Color.fromARGB(255, 64, 128, 0).toARGB32(), // cow
+    const Color.fromARGB(255, 192, 128, 0).toARGB32(), // diningtable
+    const Color.fromARGB(255, 64, 0, 128).toARGB32(), // dog
+    const Color.fromARGB(255, 192, 0, 128).toARGB32(), // horse
+    const Color.fromARGB(255, 64, 128, 128).toARGB32(), // motorbike
+    const Color.fromARGB(255, 192, 128, 128).toARGB32(), // person
+    const Color.fromARGB(255, 0, 64, 0).toARGB32(), // potted plant
+    const Color.fromARGB(255, 128, 64, 0).toARGB32(), // sheep
+    const Color.fromARGB(255, 0, 192, 0).toARGB32(), // sofa
+    const Color.fromARGB(255, 128, 192, 0).toARGB32(), // train
+    const Color.fromARGB(255, 0, 64, 128).toARGB32(), // tv-monitor
   ];
 
   static Future<Uint8List?> runSegmentationOnImage(
@@ -323,7 +323,7 @@ class Tflite {
       int imageWidth = 720,
       double imageMean = 0,
       double imageStd = 255.0,
-      int rotation: 90, // Android only
+      int rotation = 90, // Android only
       List<int>? labelColors,
       String outputType = "png",
       bool asynch = true}) async {
@@ -389,7 +389,7 @@ class Tflite {
       int imageWidth = 720,
       double imageMean = 127.5,
       double imageStd = 127.5,
-      int rotation: 90, // Android only
+      int rotation = 90, // Android only
       int numResults = 5,
       double threshold = 0.5,
       int nmsRadius = 20,
